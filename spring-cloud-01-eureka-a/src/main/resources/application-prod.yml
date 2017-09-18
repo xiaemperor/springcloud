@@ -1,0 +1,8 @@
+server:
+  port: 9001
+  
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka1:9001/eureka/  
