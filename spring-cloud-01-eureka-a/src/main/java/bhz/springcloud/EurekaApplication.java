@@ -1,14 +1,3 @@
-/**
- * Copyright 2017 BAIHZ All Rights Reserved.
- */
-/**
- * <B>系统名称：</B><BR>
- * <B>模块名称：</B><BR>
- * <B>中文类名：</B><BR>
- * <B>概要说明：</B><BR>
- * @author baihezhuo
- * @since 2017年9月7日 下午8:31:54
- */
 package bhz.springcloud;
 
 import org.springframework.boot.SpringApplication;
