@@ -1,0 +1,14 @@
+spring:
+  application: 
+    name: client-service
+
+server:
+  context-path: /
+  port: 7001
+  
+eureka:
+  client:
+    service-url:
+      ##单点配置:
+      defaultZone: http://127.0.0.1:8001/eureka/
+  
