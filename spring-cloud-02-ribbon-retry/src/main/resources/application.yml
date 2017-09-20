@@ -1,0 +1,43 @@
+spring:
+  application: 
+    name: retry-service
+  cloud: 
+    loadbalancer:
+      retry:
+        enabled: true
+        ##启用重试机制
+server:
+  context-path: /
+  port: 7004
+  
+eureka:
+  client:
+    service-url:
+      ##单点配置:
+      defaultZone: http://127.0.0.1:8001/eureka/
+
+##断路器超时时间: 
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 10000
+
+custom:
+  rest: 
+    connect-timeout: 1000
+    connection-request-timeout: 1000
+    read-timeout: 3000 #读取超时时间3s
+
+client-service: ## service的application name
+  ribbon:
+    ## 只使用ribbon组件下面这个配置 是不起作用的!!~~~
+#    ConnectTimeout: 250   # 链接超时时间
+#    ReadTimeout: 3000     # 处理超时时间
+    OkToRetryOnAllOperations: true #是否对所有的请求都进行重试
+    MaxAutoRetriesNextServer: 1  # 重试时切换实例的次数
+    MaxAutoRetries: 5  #一个实例中最大重试次数
+
+
+
+
+
+
+
+
