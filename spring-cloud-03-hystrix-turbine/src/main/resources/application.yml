@@ -1,0 +1,22 @@
+spring:
+  application: 
+    name: hystrix-turbine
+    
+server: 
+  context-path: /
+  port: 3000
+  
+management: 
+  port: 3001
+ 
+turbine:
+  app-config: hystrix-request
+  cluster-name-expression: "'default'"
+  combine-host-port: true
+  
+eureka:
+  client:
+    service-url:
+      ##单点配置:
+      defaultZone: http://127.0.0.1:8001/eureka/
+

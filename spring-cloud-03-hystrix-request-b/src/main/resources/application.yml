@@ -1,0 +1,25 @@
+spring:
+  application: 
+    name: hystrix-request
+    
+server: 
+  context-path: /
+  port: 6002
+  
+eureka:
+  client:
+    service-url:
+      ##单点配置:
+      defaultZone: http://127.0.0.1:8001/eureka/
+
+##断路器超时时间: 
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 2000
+
+custom: 
+  rest: 
+    connect-timeout: 2000
+    connection-request-timeout: 2000 
+    read-timeout: 30000 
+
+
+

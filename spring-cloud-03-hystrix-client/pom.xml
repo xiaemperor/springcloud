@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>bhz.springcloud</groupId>
+    <artifactId>spring-cloud-master</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>spring-cloud-03-hystrix-client</artifactId>
+  <name>spring-cloud-03-hystrix-client</name>
+  <description>spring-cloud-03-hystrix-client</description>
+  
+	<dependencies>
+	    <dependency>
+	        <groupId>org.springframework.cloud</groupId>
+	        <artifactId>spring-cloud-starter-eureka</artifactId>
+	    </dependency>
+	</dependencies>
+	
+	<dependencyManagement>
+	    <dependencies>
+	        <dependency>
+	           <groupId>org.springframework.cloud</groupId>
+	           <artifactId>spring-cloud-dependencies</artifactId>
+	           <version>Dalston.SR1</version>
+	           <type>pom</type>
+	           <scope>import</scope>
+	        </dependency>
+	    </dependencies>
+	</dependencyManagement>  
+  
+  	
+  	<build>
+  		<finalName>spring-cloud-03-hystrix-client</finalName>
+  		<plugins>
+  			<plugin>
+  				<groupId>org.springframework.boot</groupId>
+  				<artifactId>spring-boot-maven-plugin</artifactId>
+  				<configuration>
+  					<!-- 主函数的入口 -->
+  					<mainClass>bhz.springcloud.Application</mainClass>
+  				</configuration>
+  			</plugin>
+  		</plugins>
+  	</build>  
+    
+</project>
