@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>bhz.springcloud</groupId>
+    <artifactId>spring-cloud-master</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>spring-cloud-04-feign-consumer</artifactId>
+  <name>spring-cloud-04-feign-consumer</name>
+  <description>spring-cloud-04-feign-consumer</description>
+  
+	<dependencies>
+		<dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-web</artifactId>		
+		</dependency>
+	    <dependency>
+	        <groupId>org.springframework.cloud</groupId>
+	        <artifactId>spring-cloud-starter-eureka</artifactId>
+	    </dependency>
+	    <dependency>
+	    	<groupId>org.springframework.cloud</groupId>
+	    	<artifactId>spring-cloud-starter-hystrix</artifactId>
+	    </dependency>
+	    <dependency>
+	    	<groupId>org.springframework.cloud</groupId>
+	    	<artifactId>spring-cloud-starter-feign</artifactId>
+	    </dependency>	    
+	    <!-- 自动刷新的一个组件 -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>	
+	</dependencies>
+	
+	<dependencyManagement>
+	    <dependencies>
+	        <dependency>
+	           <groupId>org.springframework.cloud</groupId>
+	           <artifactId>spring-cloud-dependencies</artifactId>
+	           <version>Dalston.SR1</version>
+	           <type>pom</type>
+	           <scope>import</scope>
+	        </dependency>
+	    </dependencies>
+	</dependencyManagement>  
+  
+  	
+  	<build>
+  		<finalName>spring-cloud-04-feign-consumer</finalName>
+  		<plugins>
+  			<plugin>
+  				<groupId>org.springframework.boot</groupId>
+  				<artifactId>spring-boot-maven-plugin</artifactId>
+  				<configuration>
+  					<!-- 主函数的入口 -->
+  					<mainClass>bhz.springcloud.Application</mainClass>
+  				</configuration>
+  			</plugin>
+  		</plugins>
+  	</build>  
+    
+</project>

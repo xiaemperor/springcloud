@@ -34,6 +34,9 @@
      <module>spring-cloud-03-hystrix-request-b</module>
      <module>spring-cloud-03-hystrix-turbine</module>
      <module>spring-cloud-03-hystrix-dashboard</module>
+     <module>spring-cloud-04-feign-provider</module>
+     <module>spring-cloud-04-feign-consumer</module>  
+     <module>spring-cloud-04-feign-server</module>
      </modules>
       
     <properties>
