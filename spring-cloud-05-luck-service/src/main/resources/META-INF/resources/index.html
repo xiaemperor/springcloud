@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<form action="http://localhost:5000/luck-service/upload" enctype="multipart/form-data" method="post">
+			<input type="file" name="file" /> <br/>
+			<input type="submit" value="普通上传" />
+		</form>
+	</div>
+	<div>
+		<form action="http://localhost:5000/zuul/luck-service/upload" enctype="multipart/form-data" method="post">
+			<input type="file" name="file" /> <br/>
+			<input type="submit" value="绕过zuul的dispatchServlet进行上传" />
+		</form>	
+	</div>
+</body>
+</html>

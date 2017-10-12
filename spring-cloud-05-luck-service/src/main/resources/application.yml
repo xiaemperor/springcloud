@@ -1,0 +1,21 @@
+spring:
+  application: 
+    name: luck-service
+  http:
+   encoding:
+     charset: UTF-8
+   multipart: 
+     enabled: true
+     file-size-threshold: 10
+     max-file-size: 50MB
+     max-request-size: 80MB
+server:
+  context-path: /
+  port: 7002
+  
+eureka:
+  client:
+    service-url:
+      ##单点配置:
+      defaultZone: http://127.0.0.1:8001/eureka/
+  

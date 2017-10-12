@@ -1,0 +1,37 @@
+spring:
+  application: 
+    name: gateway
+
+server:
+  context-path: /
+  port: 5000
+  
+eureka:
+  client:
+    service-url:
+      ##单点配置:
+      defaultZone: http://127.0.0.1:8001/eureka/
+ 
+zuul:
+  routes: 
+    api-hello:
+      path: /hello-service/**
+      service-id: hello-service
+    api-luck:
+      path: /luck-service/**
+      service-id: luck-service
+            
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+     
