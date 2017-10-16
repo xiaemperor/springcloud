@@ -1,0 +1,17 @@
+spring:
+  application: 
+    name: evn  # name遵循配置文件evn-${value}.properties的约定
+  cloud:
+    config:
+      uri: http://localhost:4000/ #表示配置中心的地址
+      profile: dev
+      label: master
+
+
+management:
+  security:
+    enabled: false #禁止之后动态刷新。/refresh就不需要密码
+     
+server:
+  context-path: /
+  port: 7001
