@@ -41,6 +41,8 @@
      <module>spring-cloud-05-gateway</module>
      <module>spring-cloud-05-hello-service</module>
      <module>spring-cloud-05-luck-service</module>
+     <module>spring-cloud-06-config-server</module>
+	 <module>spring-cloud-06-config-client</module>
      </modules>
       
     <properties>
