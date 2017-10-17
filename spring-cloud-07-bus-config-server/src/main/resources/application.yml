@@ -1,0 +1,25 @@
+spring:
+  application: 
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/xiaemperor/springcloud # prefix
+          search-paths: config #相对路径
+  rabbitmq:
+    host: 172.16.0.96
+    port: 5672
+    username: guest
+    password: guest
+
+
+management:
+  security:
+    enabled: false        
+    
+server: 
+  context-path: /
+  port: 4000
+  
+  

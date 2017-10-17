@@ -29,7 +29,6 @@
      <module>spring-cloud-02-ribbon-request</module>
      <module>spring-cloud-02-ribbon-retry</module>
      <module>spring-cloud-03-hystrix-server</module>
-     <module>spring-cloud-03-client</module>
      <module>spring-cloud-03-hystrix-request-a</module>
      <module>spring-cloud-03-hystrix-request-b</module>
      <module>spring-cloud-03-hystrix-turbine</module>
@@ -43,6 +42,8 @@
      <module>spring-cloud-05-luck-service</module>
      <module>spring-cloud-06-config-server</module>
 	 <module>spring-cloud-06-config-client</module>
+	 <module>spring-cloud-07-bus-config-server</module>
+	 <module>spring-cloud-07-bus-config-client</module>
      </modules>
       
     <properties>

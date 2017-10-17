@@ -1,0 +1,26 @@
+spring:
+  application: 
+    name: evn
+  cloud:
+    config:
+      uri: http://localhost:4000/ ##表示配置中心的地址
+      profile: dev
+      label: master
+#    stream:
+#      kafka:
+#        binder:
+#          zk-nodes: 192.168.1.111:2181,192.168.1.112:2181,192.168.1.113:2181
+#          brokers: 192.168.1.51:9092
+  rabbitmq:
+    host: 172.16.0.96
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  security:
+    enabled: false
+     
+server:
+  context-path: /
+  port: 7001
