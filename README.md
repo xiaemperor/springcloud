@@ -22,7 +22,6 @@ eureka和zookeeper的区别：eureka保证的是CP zookeeper保证的是AP.
   3. 启动消费者 ``spring-cloud-02-ribbon-request`` 
   4. 查看eureka控制台，保证都已注册成功。
   5. 调用消费者API  http://localhost:7003/get  发现交替返回两个服务端的数据。负载均衡实现
- ![client1 和 client2 交替出现](http://upload-images.jianshu.io/upload_images/7114162-8e134a772dc34911.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
   6. 重试机制。重试机制中的坑：只使用ribbon组件的话，ConnectTimeout和ReadTimeout是不起作用的
       ```java
         client-service: ## service的application name
