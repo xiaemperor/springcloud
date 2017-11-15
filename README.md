@@ -1,5 +1,6 @@
 Spring Cloud实际应用中，最核心的部分是**hystrix断路器**,**feign声明式调用**和**zuul网关**。其他模块较简单，也常会有其他技术来替代。
 
+#### 最近有朋友发我邮件说注册中心maven打包之后的war包不能在tomcat中用。注册中心实际生产使用时，请直接下载官方war包进行部署。http://mvnrepository.com/artifact/com.netflix.eureka/eureka-server
 
 ####  第一部分：注册中心、服务提供者、消费者
 eureka和zookeeper的区别：eureka保证的是CP zookeeper保证的是AP.
