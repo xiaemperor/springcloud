@@ -1,12 +1,19 @@
+
 Spring Cloud实际应用中，最核心的部分是**hystrix断路器**,**feign声明式调用**和**zuul网关**。其他模块较简单，也常会有其他技术来替代。
+####  准备工作：启动注册中心
+ 先抛坑：所有程序启动顺序请遵循：1.注册中心。2.服务提供端。3.服务消费端。否则可能有请求不通的情况。
 
-#### 最近有朋友发我邮件说注册中心maven打包之后的war包不能在tomcat中用。注册中心实际生产使用时，请直接下载官方war包进行部署。http://mvnrepository.com/artifact/com.netflix.eureka/eureka-server
+  1. **注册中心**为高可用模式  代码位置：``eureka-a``   ``eureka-b``   同时启动a和b 。默认使用application-dev.yml 中的配置。两个eureka-server互相注册。下面所有demo将使用此注册中心，启动了不用关了。各模块间的端口可能会有冲突，所以换模块测试了最好关闭当前模块的application再测
+  2. 注册中心查看：http://127.0.0.1:8001或http://127.0.0.1:8002 可看到两个注册中心App都在了。
 
-####  第一部分：注册中心、服务提供者、消费者
-eureka和zookeeper的区别：eureka保证的是CP zookeeper保证的是AP.
+     ![注册中心互相注册，形成高可用状态](http://upload-images.jianshu.io/upload_images/7114162-62d5c31d3086d028.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-   1. **注册中心**为高可用模式  代码位置：``spring-cloud-01-eureka-a``   ``spring-cloud-01-eureka-b``   同时启动a和b 。默认使用application-dev.yml 中的配置。两个eureka-server互相注册。
-    2. **服务提供者** 代码位置：  ``spring-cloud-01-provider``   启动它。PS：由于注册中心为高可用故注册在上面的服务需要配置所有注册中心地址:
+
+使用eureka和zookeeper做注册中心的区别：eureka保证的是AP zookeeper保证的是CP.
+
+####  第一部分：服务提供者、消费者
+1.   **服务提供者** 代码位置：  ``spring-cloud-01-provider``   启动它。PS：由于注册中心为高可用故注册在上面的服务需要配置所有注册中心地址:
+
   ```java
     eureka:
       client:
@@ -14,16 +21,16 @@ eureka和zookeeper的区别：eureka保证的是CP zookeeper保证的是AP.
         ##高可用配置
           defaultZone: http://127.0.0.1:8001/eureka/,http://127.0.0.1:8002/eureka/
   ```
-  3.  **服务消费者** 代码位置：``spring-cloud-01-consumer`` 启动它。同服务提供者。Spring Cloud的提供者和消费者没有区别，他们的角色可以互相转换。这点和dubbo需要指定不同。 
-  4. 四个程序启动后的状态： ![注册中心状态](http://upload-images.jianshu.io/upload_images/7114162-d53ad50cc276a7a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-    5. 此时访问消费端的 http://localhost:7002/consumer/getByAppName 和 http://localhost:7002/consumer/getByUrl  可看到调用成功。区别：由于/getByAppName启用了LoadBalance 。需要从注册中心读取application的name来进行调用。而/getByUrl是纯粹的http url的调用，没有从注册中心获取注册列表。
+  2.  **服务消费者** 代码位置：``spring-cloud-01-consumer`` 启动它。同服务提供者。Spring Cloud的提供者和消费者没有区别，他们的角色可以互相转换。这点和dubbo需要指定不同。 
+  3. 程序启动后的状态： ![注册中心状态](http://upload-images.jianshu.io/upload_images/7114162-d53ad50cc276a7a3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+    4. 此时访问消费端的 http://localhost:7002/consumer/getByAppName 和 http://localhost:7002/consumer/getByUrl  可看到调用成功。区别：由于/getByAppName启用了LoadBalance 。需要从注册中心读取application的name来进行调用。而/getByUrl是纯粹的http url的调用，没有从注册中心获取注册列表。
+
 #### 第二部分：Ribbon负载均衡和Retry重试机制
-  1. 启动注册中心 ``spring-cloud-02-ribbon-eureka``
-  2. 启动服务集群 ``spring-cloud-02-ribbon-client-1`` 和``spring-cloud-02-ribbon-client-2``
-  3. 启动消费者 ``spring-cloud-02-ribbon-request`` 
-  4. 查看eureka控制台，保证都已注册成功。
-  5. 调用消费者API  http://localhost:7003/get  发现交替返回两个服务端的数据。负载均衡实现
-  6. 重试机制。重试机制中的坑：只使用ribbon组件的话，ConnectTimeout和ReadTimeout是不起作用的
+  1. 启动服务集群 ``spring-cloud-02-ribbon-client-1`` 和``spring-cloud-02-ribbon-client-2``
+  2. 启动消费者 ``spring-cloud-02-ribbon-request`` 
+  3. 查看eureka控制台，保证都已注册成功。
+  4. 调用消费者API  http://localhost:7003/get  发现交替返回两个服务端的数据。负载均衡实现
+  5. 重试机制。重试机制中的坑：只使用ribbon组件的话，ConnectTimeout和ReadTimeout是不起作用的
       ```java
         client-service: ## service的application name
             ribbon:
@@ -35,7 +42,7 @@ eureka和zookeeper的区别：eureka保证的是CP zookeeper保证的是AP.
                 MaxAutoRetries: 5
       ```
       需要在RestTemplate中传入配置好ConnectTimeout和      ReadTimeout等参数的HttpComponentsClientHttpRequestFactory来让重试生效。
-    7. **重试机制测试**  在上面1、2条的基础上，再启动 ``spring-cloud-02-ribbon-retry``  请求  http://localhost:7004/retry 会发现请求了六次client-1之后，再请求了一次client-2.并返回了ret: client 2
+    6. **重试机制测试**  在上面1、2条的基础上，再启动 ``spring-cloud-02-ribbon-retry``  请求  http://localhost:7004/retry 会发现请求了六次client-1之后，再请求了一次client-2.并返回了ret: client 2
 可从配置的参数和client-1的代码中解释这个重试的现象。
         ```
         custom:
@@ -64,13 +71,18 @@ eureka和zookeeper的区别：eureka保证的是CP zookeeper保证的是AP.
 	    }	
         ```
 
+          ![6次请求](http://upload-images.jianshu.io/upload_images/7114162-b41437e9cb90a84f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+注意：由于有负载均衡，可能直接请求到了client2端，那就直接返回没有触发重试，可再请求一次，请求到client1里面，可看到连续的retry
+
+
 #### 第三部分：Hystrix 断路器
    由于hystrix 篇幅较大，故单独成文，请见:
     [Spring Cloud Hystrix 断路器](http://www.jianshu.com/p/88af040caf2a)
 
 #### 第四部分：Feign 声明式服务调用 
 Feign 内部集成了Ribbon和Hystrix
-  该部分比较简单，先后启动注册中心``spring-cloud-04-feign-server``，和生产者``spring-cloud-04-feign-provider`` 、消费者``spring-cloud-04-feign-consumer `` 
+  先后启动生产者``spring-cloud-04-feign-provider`` 、消费者``spring-cloud-04-feign-consumer `` 
 调用消费端API
  http://localhost:7002/hello
 http://localhost:7002/hi  (带有Hystrix降级)
@@ -80,10 +92,9 @@ __注意__：在写断路器的实现``HelloFeignClientHystrixFallback``时，�
 Zuul 集成了Hystrix和Ribbon
 __核心功能__：路由和权限的过滤验证功能。所有请求先经过zuul来进行路由到各个子服务系统中，token的验证也往往放在这一层。这样可以让各个微服务的只关心自己的业务。
 
-1.启动注册中心 ``spring-cloud-05-gateway-server``
-2.启动两个服务 ``spring-cloud-05-hello-service``  ``spring-cloud-05-luck-service``
-3.启动网关 ``spring-cloud-05-gateway``
-4.确认两服务一网关都已开启 http://localhost:8001/
+1.启动两个服务 ``spring-cloud-05-hello-service``  ``spring-cloud-05-luck-service``
+2.启动网关 ``spring-cloud-05-gateway``
+3.确认两服务一网关都已开启 http://localhost:8001/
   ```java
  zuul:
    routes: 
@@ -95,14 +106,14 @@ __核心功能__：路由和权限的过滤验证功能。所有请求先经过z
       service-id: luck-service
    ```
 
-5. 网关的配置如上，直接访问网关服务所配置的path，将由网关路由到hello和luck服务。http://localhost:5000/luck-service/luck
+4. 网关的配置如上，直接访问网关服务所配置的path，将由网关路由到hello和luck服务。http://localhost:5000/luck-service/luck
 http://localhost:5000/hello-service/hello
-6. 访问以上地址时会发现提示__--------no token !---------__ 那是因为在gateway里面配置了过滤器，用来做token权限的验证。只需继承ZuulFilter，并重写其中的方法，注入到spring容器中。具体的过滤参数和方法见CustomAuthFilter类的注释中。
-7. CustomAuthFilter过滤器中验证的为header中的token参数“123456”。故需要postman来进行测试。
+5. 访问以上地址时会发现提示__--------no token !---------__ 那是因为在gateway里面配置了过滤器，用来做token权限的验证。只需继承ZuulFilter，并重写其中的方法，注入到spring容器中。具体的过滤参数和方法见CustomAuthFilter类的注释中。
+6. CustomAuthFilter过滤器中验证的为header中的token参数“123456”。故需要postman来进行测试。
 ![POSTMAN](http://upload-images.jianshu.io/upload_images/7114162-4c34a9c4d3c92f19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 若更换token的value。也将验证失败。
-8. 将请求换成http://localhost:5000/luck-service/luck 将得到另外一个服务luck的返回串。
-9. 可在gateway中定义熔断器。实现ZuulFallbackProvider接口，并注入即可。Demo中对luck-service做了熔断。停止luck-service服务，再请求时，会发现收到了熔断器指定的返回内容。
+7. 将请求换成http://localhost:5000/luck-service/luck 将得到另外一个服务luck的返回串。
+8. 可在gateway中定义熔断器。实现ZuulFallbackProvider接口，并注入即可。Demo中对luck-service做了熔断。__停止luck-service服务__，再请求时，会发现收到了熔断器指定的返回内容。
   ```java
 @Component
 public class LuckServiceZuulFallBackProvider  implements ZuulFallbackProvider {
@@ -224,4 +235,3 @@ management:
 此方式只需要管理配置中心这一端。不需要像第六部分中的config那样在客户端上刷新。这才是在真正的微服务项目中使用的方式
 
 __PS: 具体的完整项目中，一般使用Zuul+Feign（集成了Ribbon、Hystrix）+ Eureka + Config__
-
