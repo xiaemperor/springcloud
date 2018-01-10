@@ -15,7 +15,7 @@ public class UserController {
 	@RequestMapping(value = "/getUser", method = {RequestMethod.GET})
 	public User getUser(@RequestParam("id") String id){
 		System.err.println("client 2 -------------- id: " + id);
-		return new User(id, "张3", 18,"client-2");
+		return new User(id, "张2", 18,"client-2");
 	}
 	
 	@RequestMapping(value = "/postUser", method = {RequestMethod.POST})
@@ -43,22 +43,8 @@ public class UserController {
 	
 	@RequestMapping(value="/retry",  method = {RequestMethod.GET})
 	public String retry(){
-		///client 睡眠 6s 超过了配置的响应等待3s
-//		try {
-//			Thread.sleep(6000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 		System.err.println("client 2 call ...........");
 		return "client 2";
-	}	
-	
-	
-	
-	
-	
-	
-	
+	}
 	
 }

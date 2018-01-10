@@ -5,10 +5,10 @@
     <artifactId>spring-cloud-master</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>spring-cloud-02-ribbon-eureka</groupId>
-  <artifactId>spring-cloud-02-ribbon-eureka</artifactId>
-  <name>spring-cloud-02-ribbon-eureka</name>
-  <description>spring-cloud-02-ribbon-eureka</description>
+  <groupId>eureka-b</groupId>
+  <artifactId>eureka-b</artifactId>
+  <name>eureka-b</name>
+  <description>eureka-b</description>
   
 	<dependencies>
 	    <dependency>
@@ -31,7 +31,7 @@
   
   	
   	<build>
-  		<finalName>spring-cloud-02-ribbon-eureka</finalName>
+  		<finalName>eureka-b</finalName>
   		<plugins>
   			<plugin>
   				<groupId>org.springframework.boot</groupId>

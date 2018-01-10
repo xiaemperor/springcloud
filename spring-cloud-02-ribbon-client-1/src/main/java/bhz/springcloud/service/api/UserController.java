@@ -15,7 +15,7 @@ public class UserController {
 	@RequestMapping(value = "/getUser", method = {RequestMethod.GET})
 	public User getUser(@RequestParam("id") String id){
 		System.err.println("client 1 -------------- id: " + id);
-		return new User(id, "张3", 18,"client-1");
+		return new User(id, "张1", 18,"client-1");
 	}
 	
 	@RequestMapping(value = "/postUser", method = {RequestMethod.POST})

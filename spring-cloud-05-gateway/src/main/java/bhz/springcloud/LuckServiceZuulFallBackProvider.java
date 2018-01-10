@@ -12,10 +12,8 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.stereotype.Component;
 
 /**
- * <B>系统名称：</B>指定段熔某个服务/自定义响应信息内容.<BR>
- * <B>模块名称：</B><BR>
- * <B>中文类名：</B><BR>
- * <B>概要说明：</B><BR>
+ * @author maven http://mawenxia.com
+ * 指定段熔某个服务/自定义响应信息内容
  */
 @Component
 public class LuckServiceZuulFallBackProvider  implements ZuulFallbackProvider {
